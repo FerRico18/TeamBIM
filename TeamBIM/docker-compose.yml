@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./TeamBIM-api
+      dockerfile: Dockerfile
+    container_name: team_bim_backend
+    working_dir: /var/www
+    volumes:
+      - ./TeamBIM-api:/var/www
+    ports:
+      - "9001:9001"
+    networks:
+      - team_bim_net
+    depends_on:
+      - mongo
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  frontend:
+    build:
+      context: ./TeamBIM-frontend
+      dockerfile: Dockerfile
+    container_name: team_bim_frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./TeamBIM-frontend:/app
+      - /app/node_modules
+    networks:
+      - team_bim_net
+
+  mongo:
+    image: mongo
+    container_name: team_bim_mongo
+    ports:
+      - "2717:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - team_bim_net
+
+networks:
+  team_bim_net:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+
+
