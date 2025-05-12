@@ -10,15 +10,17 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: true, // necesario para que Docker lo exponga
-    port: 5173,
     proxy: {
-      '/api': {
-        target: 'http://team_bim_backend:9001', // nombre del contenedor backend + puerto expuesto
+      '/register': {
+        target: 'http://localhost:9001',
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => path.replace(/^\/api/, ''),
       },
-    },
-  },
+      '/login': {
+        target: 'http://localhost:9001',
+        changeOrigin: true,
+        secure: false,
+      },
+    }
+  }
 })

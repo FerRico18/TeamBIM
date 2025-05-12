@@ -3,12 +3,12 @@ version: '3.8'
 services:
   backend:
     build:
-      context: ./TeamBIM-api
+      context: ./TeamBIM-backend
       dockerfile: Dockerfile
     container_name: team_bim_backend
     working_dir: /var/www
     volumes:
-      - ./TeamBIM-api:/var/www
+      - ./TeamBIM-backend:/var/www
     ports:
       - "9001:9001"
     networks:
