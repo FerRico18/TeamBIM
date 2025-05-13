@@ -1,5 +1,3 @@
-// Endpoint de registro de usuarios
-
 <?php
 
 namespace App\Http\Controllers\Auth;
