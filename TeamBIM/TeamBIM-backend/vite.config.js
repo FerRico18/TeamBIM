@@ -1,11 +1,11 @@
 import { defineConfig } from 'vite';
-import laravel from 'laravel-vite-plugin';
 
 export default defineConfig({
-    plugins: [
-        laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js'],
-            refresh: true,
-        }),
-    ],
+    server: {
+        proxy: {
+            '/register': 'http://localhost:9001',
+            '/login': 'http://localhost:9001',
+            '/api': 'http://localhost:9001',
+        },
+    },
 });

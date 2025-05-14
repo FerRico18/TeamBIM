@@ -1,5 +1,3 @@
-// EndPoint de login
-
 <?php
 
 namespace App\Http\Controllers\Auth;

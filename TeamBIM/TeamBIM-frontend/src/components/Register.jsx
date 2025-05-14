@@ -13,14 +13,14 @@ import {
     useToast,
     useColorModeValue,
 } from '@chakra-ui/react';
-import api from '../api/axios';
+import axios from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [area, setArea] = useState('');
+    const [rol, setRol] = useState('');
     const toast = useToast();
     const navigate = useNavigate();
 
@@ -28,21 +28,21 @@ const Register = () => {
         setName("");
         setEmail("");
         setPassword("");
-        setArea("");
+        setRol("");
     }, []);
 
     const handleRegister = async () => {
         try {
-            const response = await api.post('/register', {
+            const response = await axios.post('/register', {
                 name,
                 email,
                 password,
-                area,
+                rol,
             });
             setEmail("");
             setPassword("");
             setName("");
-            setArea("");
+            setRol("");
             console.log('Registro exitoso:', response.data);
 
             toast({
@@ -118,14 +118,14 @@ const Register = () => {
                     </FormControl>
 
                     <FormControl>
-                        <FormLabel color="gray.300">Área</FormLabel>
+                        <FormLabel color="gray.300">Rol</FormLabel>
                         <Select
-                            placeholder="Selecciona tu área"
+                            placeholder="Selecciona tu rol"
                             bg="gray.700"
                             border="none"
                             color="white"
-                            value={area}
-                            onChange={(e) => setArea(e.target.value)}
+                            value={rol}
+                            onChange={(e) => setRol(e.target.value)}
                         >
                             <option style={{ backgroundColor: '#2D3748' }} value="Ingeniería Civil">Ingeniería Civil</option>
                             <option style={{ backgroundColor: '#2D3748' }} value="Arquitectura">Arquitectura</option>

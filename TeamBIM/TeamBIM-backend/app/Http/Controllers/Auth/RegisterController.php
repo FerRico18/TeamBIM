@@ -1,5 +1,3 @@
-// Endpoint de registro de usuarios
-
 <?php
 
 namespace App\Http\Controllers\Auth;
@@ -17,14 +15,14 @@ class RegisterController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|max:10',
             'name' => 'required|string|max:255',
-            'area' => 'required|string',
+            'rol' => 'required|string',
         ]);
 
         $user = User::create([
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'name' => $request->name,
-            'area' => $request->area,
+            'rol' => $request->rol,
         ]);
 
         return response()->json([
