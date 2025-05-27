@@ -11,13 +11,13 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/register': {
-        target: 'http://localhost:9001',
+      '/api/register': {
+        target: 'http://team_bim_backend:9000',
         changeOrigin: true,
         secure: false,
       },
-      '/login': {
-        target: 'http://localhost:9001',
+      '/api/login': {
+        target: 'http://team_bim_backend:9000',
         changeOrigin: true,
         secure: false,
       },

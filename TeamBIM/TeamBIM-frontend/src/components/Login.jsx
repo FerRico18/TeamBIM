@@ -17,13 +17,14 @@ const Login = () => {
 
     const handleLogin = async () => {
         try {
-            const response = await api.post('/api/login', {
-                email: '',
-                password: ''
+            const response = await api.post('/login', {
+                email: email,
+                password: password
             })
             setEmail("");
             setPassword("");
-            console.log('Login exitoso:', response.data)
+            console.log('Login exitoso:', response.data);
+
             toast({
                 title: 'Bienvenido',
                 description: 'Has iniciado sesión con éxito',
@@ -31,8 +32,10 @@ const Login = () => {
                 duration: 3000,
                 isClosable: true,
             })
+            navigate('/dashboard');
         } catch (error) {
-            console.error('Error en login:', error)
+            console.error('Error en login:', error.response?.data || error.message);
+            console.log('Detalles:', error.response);
             toast({
                 title: 'Error de inicio de sesión',
                 description: 'Correo o contraseña incorrectos',

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+
 
 class LoginController extends Controller
 {
@@ -13,18 +15,17 @@ class LoginController extends Controller
     {
         $request->validate([
             'email'=> 'required|email', 
-            'password'=>'required|string'
+            'password'=>'required'
         ]);
 
         $credentials = $request->only('email', 'password');
 
-        $user = User::where('email', $credentials['email'])->first();
-
-        if (!$user || !Hash::check($credentials['password'], $user->password)) {
-            return response()->json(['message' => 'Credenciales inválidas'], 401);
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            return response()->json(['user' => $user]);
         }
 
         // Aquí podríamos generar un token o algo, por ahora solo éxito
-        return response()->json(['message' => 'Login exitoso', 'user' => $user]);
+        return response()->json(['message' => 'Credenciales incorrectas'], 422);
     }
 }
