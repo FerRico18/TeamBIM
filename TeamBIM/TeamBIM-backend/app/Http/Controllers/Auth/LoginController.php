@@ -22,7 +22,7 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            return response()->json(['user' => $user]);
+            return response()->json(['usuario' => $user]);
         }
 
         // Aquí podríamos generar un token o algo, por ahora solo éxito

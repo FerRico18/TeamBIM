@@ -12,7 +12,8 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    protected $connection = 'mongodb';
+    protected $connection = 'mysql';
+    protected $table = 'usuario';
 
     /**
      * The attributes that are mass assignable.
