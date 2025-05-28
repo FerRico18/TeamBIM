@@ -49,4 +49,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function tareas()
+    {
+        return $this->hasMany(Tarea::class, 'usuario_asignado');
+    }
+
+    public function proyectos()
+    {
+        return $this->belongsToMany(Proyecto::class, 'usuario_proyecto', 'id_usuario', 'id_proyecto')
+            ->withPivot('rol_proyecto', 'fecha_union');
+    }
 }

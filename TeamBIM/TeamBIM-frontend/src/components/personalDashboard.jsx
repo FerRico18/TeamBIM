@@ -14,8 +14,8 @@ import {
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
-import Login from './components/Login';
-import Register from './components/Register';
+//import Login from '/Login';
+//import Register from '/Register';
 
 const Sidebar = ({ userName }) => {
     return (
