@@ -5,19 +5,17 @@
   Componentes de diseño de React.
 */
 
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import { Routes, Route, BrowserRouter } from 'react-router-dom'
 import Login from './components/Login';
 import Register from './components/Register';
-import Dashboard from './components/personalDashboard';
+import PersonalDashboard  from './components/personalDashboard.jsx';
 
 export default function App() {
   return (
-    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<PersonalDashboard />} />
       </Routes>
-    </BrowserRouter>
   )
 }
