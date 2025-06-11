@@ -6,6 +6,7 @@ import {
     VStack,
     HStack,
     IconButton,
+    Image,
     useColorModeValue,
     Progress,
     Heading,
@@ -22,7 +23,7 @@ import {
     modelosIcon,
     equiposIcon,
     ayudaIcon,
-} from '../assets/icons/icons';
+} from '../assets/icons/icons.js';
 import { useState } from 'react';
 import { PieChart, Pie, Cell, Tooltip as RechartsTooltip, ResponsiveContainer } from 'recharts';
 import Calendar from 'react-calendar';
@@ -38,16 +39,18 @@ const data = [
 ];
 
 const ganttData = [
-    { name: 'Proyecto A', start: 1, end: 4, color: '#BEB8EB' },
-    { name: 'Proyecto B', start: 2, end: 5, color: '#5299D3' },
-    { name: 'Proyecto C', start: 3, end: 6, color: '#0B5563' },
-    { name: 'Proyecto D', start: 3, end: 6, color: '#5E5C6C' },
-    { name: 'Proyecto E', start: 3, end: 6, color: '#A2BCE0' },
+  { name: 'Proyecto A', start: 1, end: 4, color: '#BEB8EB', progress: 85 },
+  { name: 'Proyecto B', start: 2, end: 5, color: '#5299D3', progress: 67 },
+  { name: 'Proyecto C', start: 3, end: 6, color: '#0B5563', progress: 42 },
+  { name: 'Proyecto D', start: 3, end: 6, color: '#5E5C6C', progress: 10 },
+  { name: 'Proyecto E', start: 3, end: 6, color: '#A2BCE0', progress: 98 },
 ];
 
 const PersonalDashboard = () => {
     const [date, setDate] = useState(new Date());
     const [expanded, setExpanded] = useState(false);
+
+    console.log({ menuIcon, dashboardIcon, proyectosIcon });
 
     return (
         <Flex minH="100vh">
@@ -110,7 +113,9 @@ const PersonalDashboard = () => {
                         </VStack>
                     </Box>
 
-                    <HStack>
+                    <Spacer />
+
+                    <HStack mt={6} spacing={4}>
                         <Image src={ayudaIcon} alt="Ayuda" boxSize="20px" />
                         {expanded && <Text>Ayuda</Text>}
                     </HStack>
@@ -126,53 +131,70 @@ const PersonalDashboard = () => {
                 </Flex>
 
                 <Flex gap={4} mb={4} wrap="wrap">
-                    <Box w="250px" p={4} bg="gray.800" color="white" borderRadius="md">
-                        <Text mb={2}>Progreso de Proyectos</Text>
-                        <ResponsiveContainer width="100%" height={200}>
-                            <PieChart>
-                                <Pie
-                                    data={data}
-                                    dataKey="value"
-                                    nameKey="name"
-                                    cx="50%"
-                                    cy="50%"
-                                    outerRadius={60}
-                                    fill="#8884d8"
-                                    label
-                                >
-                                    {data.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                    ))}
-                                </Pie>
-                                <RechartsTooltip />
-                            </PieChart>
-                        </ResponsiveContainer>
+                    {/* Panel lateral izquierdo: gráfica + calendario */}
+                    <Box display="flex" flexDirection="column" gap={4}>
+                        <Box w="250px" p={4} bg="gray.800" color="white" borderRadius="md">
+                            <Text mb={2}>Progreso de Proyectos</Text>
+                            <ResponsiveContainer width="100%" height={200}>
+                                <PieChart>
+                                    <Pie
+                                        data={data}
+                                        dataKey="value"
+                                        nameKey="name"
+                                        cx="50%"
+                                        cy="50%"
+                                        outerRadius={60}
+                                        fill="#8884d8"
+                                        label
+                                    >
+                                        {data.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                        ))}
+                                    </Pie>
+                                    <RechartsTooltip />
+                                </PieChart>
+                            </ResponsiveContainer>
+                        </Box>
+
+                        <Box w="250px" p={4} bg="gray.800" color="white" borderRadius="md">
+                            <Text mb={2}>Calendario</Text>
+                            <Calendar onChange={setDate} value={date} />
+                        </Box>
                     </Box>
 
-                    <Box w="250px" p={4} bg="gray.800" color="white" borderRadius="md">
-                        <Text mb={2}>Calendario</Text>
-                        <Calendar onChange={setDate} value={date} />
-                    </Box>
-
-                    <Box flex="1" bg="gray.900" p={4} borderRadius="md" overflowX="auto">
+                    {/* Panel derecho: cronograma */}
+                    <Box flex="1" bg="gray.900" p={4} borderRadius="md" overflowX="auto" minW="500px">
                         <Flex justify="space-between" mb={2}>
                             <Text fontWeight="bold">Cronograma</Text>
                             <Text fontSize="sm">Semana actual</Text>
                         </Flex>
                         <Box>
                             {ganttData.map((task, idx) => (
-                                <Box
-                                    key={idx}
-                                    h="30px"
-                                    my={2}
-                                    bg={task.color}
-                                    w={`${(task.end - task.start) * 15}%`}
-                                    ml={`${task.start * 10}%`}
-                                    borderRadius="md"
-                                    transition="all 0.3s"
+                                <Tooltip
+                                    key={`tooltip-${idx}`}
+                                    label={`${task.name}: ${task.progress}% completado`}
+                                    hasArrow
+                                    bg="gray.600"
+                                    color="white"
+                                    placement="top"
                                 >
-                                    <Text pl={2} fontSize="xs" color="white">{task.name}</Text>
-                                </Box>
+                                    <Box
+                                        onClick={()=> navigate(`/project`)}
+                                        cursor="pointer"
+                                        key={idx}
+                                        h="30px"
+                                        my={2}
+                                        bg={task.color}
+                                        w={`${(task.end - task.start) * 15}%`}
+                                        ml={`${task.start * 10}%`}
+                                        borderRadius="md"
+                                        transition="all 0.3s"
+                                    >
+                                        <Text pl={2} fontSize="xs" color="white">
+                                            {task.name}
+                                        </Text>
+                                    </Box>
+                                </Tooltip>
                             ))}
                         </Box>
                     </Box>

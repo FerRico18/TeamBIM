@@ -9,6 +9,7 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom'
 import Login from './components/Login';
 import Register from './components/Register';
 import PersonalDashboard  from './components/personalDashboard.jsx';
+import Project from './components/Projects.jsx';
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<PersonalDashboard />} />
+        <Route path="/projects" element={<Project />} />
       </Routes>
   )
 }
