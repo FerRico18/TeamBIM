@@ -12,6 +12,7 @@ import {
     Heading,
     Tooltip,
     useDisclosure,
+    Spacer,
 } from '@chakra-ui/react';
 
 import {
@@ -24,6 +25,7 @@ import {
     equiposIcon,
     ayudaIcon,
 } from '../assets/icons/icons.js';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { PieChart, Pie, Cell, Tooltip as RechartsTooltip, ResponsiveContainer } from 'recharts';
 import Calendar from 'react-calendar';
@@ -47,6 +49,7 @@ const ganttData = [
 ];
 
 const PersonalDashboard = () => {
+    const navigate = useNavigate();
     const [date, setDate] = useState(new Date());
     const [expanded, setExpanded] = useState(false);
 
@@ -86,7 +89,11 @@ const PersonalDashboard = () => {
                                 {expanded && <Text>Dashboard Personal</Text>}
                             </HStack>
 
-                            <HStack>
+                            <HStack
+                                onClick={() => navigate('/projects')}
+                                cursor="pointer"
+                                hover={{ bg: 'blue.300' }}
+                            >
                                 <Image src={proyectosIcon} alt="Proyectos" boxSize="20px" />
                                 {expanded && <Text>Mis Proyectos</Text>}
                             </HStack>
