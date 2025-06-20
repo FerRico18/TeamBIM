@@ -1,6 +1,21 @@
 version: '3.8'
 
 services:
+  db:
+    image: mariadb
+    container_name: teambim-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: teambim
+      MYSQL_USER: teambim
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3307:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - team_bim_net
+
   backend:
     build:
       context: ./TeamBIM-backend
@@ -9,6 +24,7 @@ services:
     working_dir: /var/www
     volumes:
       - ./TeamBIM-backend:/var/www
+      -  /var/www/vendor
     ports:
       - "9001:9000"
     depends_on:
@@ -32,29 +48,30 @@ services:
       - "5173:5173"
     volumes:
       - ./TeamBIM-frontend:/app
-      - /app/node_modules
+      - node_modules_frontend:/app/node_modules
     networks:
       - team_bim_net
     depends_on:
       - backend
 
-  db:
-    image: mariadb
-    container_name: teambim-db
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: teambim
-      MYSQL_USER: teambim
-      MYSQL_PASSWORD: secret
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: teambim-php
+    depends_on:
+      - db
     ports:
-      - "3306:3306"
-    volumes:
-      - dbdata:/var/lib/mysql
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: teambim
+      PMA_PASSWORD: secret
     networks:
       - team_bim_net
 
 volumes:
   dbdata:
+  node_modules_frontend:
 
 networks:
   team_bim_net:

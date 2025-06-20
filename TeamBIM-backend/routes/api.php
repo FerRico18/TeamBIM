@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ProyectoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\TareaController;
+use App\Http\Controllers\DashboardController;
 
 
 /*
@@ -19,6 +20,11 @@ use App\Http\Controllers\TareaController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::get('/dashboard-data', function () {
+    return response()->json(['ok' => true]);
+});
+
 
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
@@ -35,3 +41,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::get('/tareas', [TareaController::class, 'index']);
     Route::get('/tareas/{id}', [TareaController::class, 'show']);
 });
+
+Route::get('/dashboard-data', [DashboardController::class, 'getDashboardData']);
+
